@@ -4,6 +4,8 @@ import { AddShoppingPage } from '../add-shopping/add-shopping';
 
 import { FirebaseListObservable, AngularFireDatabase } from 'angularfire2/database';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item-interface';
+import { EditShoppingItemPage } from '../edit-shopping-item/edit-shopping-item';
+
 
 @Component({
   selector: 'page-shopping-list',
@@ -38,13 +40,15 @@ export class ShoppingListPage {
  */
   selectShoppingItem(shoppingItem: ShoppingItem) {
     this.actionSheetCtrl.create({
-      title: '${shoppingItem.itemName}',
+      title: `${shoppingItem.itemName}`,
       buttons: [
         {
           text: 'Edit',
           handler: () => {
             // send the user to the EditShoppingItem Page and pass
             // key as a parameter
+            this.navCtrl.push(EditShoppingItemPage,
+                 {shoppingItemId: shoppingItem.$key});
           }
         },
         {
