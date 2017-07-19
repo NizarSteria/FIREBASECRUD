@@ -10,7 +10,7 @@ import { ShoppingItem } from '../../models/shopping-item/shopping-item-interface
 export class EditShoppingItemPage {
 
   shoppingItemRef$: FirebaseObjectObservable<ShoppingItem>;
-
+  shoppingItem = {} as ShoppingItem;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -18,6 +18,16 @@ export class EditShoppingItemPage {
       const shoppingItemId = this.navParams.get('shoppingItemId');
       console.log(shoppingItemId);
       this.shoppingItemRef$ = this.database.object(`shopping-list/${shoppingItemId}`);
+      this.shoppingItemRef$.subscribe(
+        shoppingItem => this.shoppingItem =shoppingItem);
+  }
+
+  editShoppingItem(shoppingItem: ShoppingItem){
+    // Update our Firebase node with new item data
+    this.shoppingItemRef$.update(shoppingItem);
+     // Send the user back to the ShoppingListPage
+    this.navCtrl.pop();
+
   }
 
   ionViewDidLoad() {
